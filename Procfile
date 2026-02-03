@@ -1,0 +1,1 @@
+web: gunicorn mixing_masters.wsgi
