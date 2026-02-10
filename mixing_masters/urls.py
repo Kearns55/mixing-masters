@@ -20,5 +20,7 @@ from courses import views as course_views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', course_views.index, name='courses_index'),
+    path('', course_views.home, name='home'),
+    path('courses/', course_views.home, name='courses'),
+    path('accounts/', include('allauth.urls')),
 ]
