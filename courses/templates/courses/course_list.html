@@ -1,19 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Views Part 1</title>
-</head>
-
+{% extends "base.html" %}
+{% block content %}
 <body>
     <h1>Courses list</h1>
     {% for course in object_list %}
     <h2>{{course.name}}</h2>
     <p>{{course.description}}</p>
+    <p>Price: € {{course.price}}</p>
+    <p>Max places: {{course.max_participants}} people</p>
+    <p>Handy to bring: {{course.supplies.all|join:", "}}</p>
+    <p>Start date: {{course.start_date}}</p>
+    <p>Location: {{course.location}}</p>
     {% endfor %}
 </body>
 
-</html>
+{% endblock content %}

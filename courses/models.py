@@ -40,6 +40,8 @@ class Course(models.Model):
 
     name = models.CharField(max_length=200, null=False, blank=False)
     description = models.TextField(null=False, blank=False)
+    location = models.CharField(max_length=200, null=False, blank=False)
+    start_date = models.DateTimeField(null=False, blank=False)
 
     image = CloudinaryField("image", default="placeholder", null=True, blank=True)
 

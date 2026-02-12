@@ -25,9 +25,9 @@
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <div class="container">
-            <span class="navbar-brand">
+            <a class="navbar-brand" href="{% url 'homepage-urls' %}">
                 🍸 Mixing Masters
-            </span>
+            </a>
 
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
                 <span class="navbar-toggler-icon"></span>
@@ -36,10 +36,10 @@
             <div class="collapse navbar-collapse" id="mainNavbar">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'courses' %}">Workshops</a>
+                        <a class="nav-link" href="{% url 'courses-urls' %}">Workshops</a>
                     </li>
                     <li class="nav-item">
-                        <span class="nav-link">My Bookings</span>
+                        <a class="nav-link" href="#">Get in Touch</a>
                     </li>
                 </ul>
 

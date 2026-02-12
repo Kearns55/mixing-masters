@@ -5,9 +5,8 @@ from .models import Level, SupplyItem, Course
 admin.site.register(Level)
 admin.site.register(SupplyItem)
 
-
 @admin.register(Course)
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ("name", "level", "price", "max_participants")
-    list_filter = ("level",)
-    search_fields = ("name", "description")
+    list_display = ('name', 'level', 'start_date', 'location', 'price', 'max_participants', 'is_active')
+    list_filter = ('level', 'is_active')
+    search_fields = ('name', 'description', 'location')

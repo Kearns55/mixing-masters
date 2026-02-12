@@ -8,3 +8,7 @@ from .models import Course
 class CourseList(generic.ListView):
     queryset = Course.objects.all()
     template_name = "course_list.html"
+
+
+class Homepage(generic.TemplateView):
+    template_name = "home/index.html"
