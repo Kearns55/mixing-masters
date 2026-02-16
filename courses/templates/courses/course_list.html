@@ -2,7 +2,7 @@
 {% block content %}
 <body>
     <h1>Courses list</h1>
-    {% for course in object_list %}
+    {% for course in courses %}
     <h2>{{course.name}}</h2>
     <p>{{course.description}}</p>
     <p>Price: € {{course.price}}</p>

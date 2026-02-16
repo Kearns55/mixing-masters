@@ -1,16 +1,18 @@
 from django.shortcuts import render
-from django.views import generic
+from django.views.generic import ListView, DetailView
 from .models import Course
 
 # Create your views here.
 
 
-class CourseList(generic.ListView):
-    queryset = Course.objects.all()
-    template_name = "course_list.html"
+class CourseList(ListView):
+    model = Course
+    template_name = "courses/course_list.html"
+    context_object_name = "courses"
 
 
-class Homepage(generic.TemplateView):
+class CourseDetail(DetailView):
+    model = Course
     template_name = "courses/course_detail.html"
     context_object_name = "course"
 
