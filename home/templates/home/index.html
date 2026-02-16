@@ -5,7 +5,45 @@
 
 {% block content %}
 
-<!-- index.html content starts here -->
- <h1> Welcome to the homepage!</h1>
+<h1 class="text-center my-4">Welcome to the homepage!</h1>
+
+<div class="container">
+    <div class="row">
+
+        {% for course in courses %}
+        <div class="col-md-4 mb-4">
+            <div class="card h-100 shadow-sm">
+
+                <img src="{{ course.image_url }}" class="card-img-top" alt="{{ course.title }}">
+
+                <div class="card-body d-flex flex-column">
+
+                    <h5 class="card-title">
+                        {{ course.title }}
+                    </h5>
+
+                    <p class="card-text">
+                        {{ course.description|truncatewords:20 }}
+                    </p>
+
+                    <p class="card-text">
+                        <strong>Price:</strong> €{{ course.price }}
+                    </p>
+
+                    <div class="mt-auto">
+                        <a href="{% url 'courses_detail' course.pk %}" class="btn btn-primary w-100">
+                            View Course
+                        </a>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No courses available.</p>
+        {% endfor %}
+
+    </div>
+</div>
 
 {% endblock %}

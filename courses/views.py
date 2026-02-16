@@ -11,4 +11,10 @@ class CourseList(generic.ListView):
 
 
 class Homepage(generic.TemplateView):
-    template_name = "home/index.html"
+    template_name = "courses/course_detail.html"
+    context_object_name = "course"
+
+
+def homepage(request):
+    courses = Course.objects.all()
+    return render(request, "home/index.html", {"courses": courses})
