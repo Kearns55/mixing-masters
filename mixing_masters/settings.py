@@ -15,8 +15,7 @@ from pathlib import Path
 import dj_database_url
 import django
 from django import db
-if os.path.isfile('env.py'):
-    import env
+import cloudinary
 import stripe
 from dotenv import load_dotenv
 load_dotenv()
@@ -52,6 +51,7 @@ INSTALLED_APPS = [
     'contact',
 ]
 
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
 CLOUDINARY_URL = os.environ.get("CLOUDINARY_URL")
 
 SITE_ID = 1
