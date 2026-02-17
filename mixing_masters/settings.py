@@ -17,6 +17,9 @@ import django
 from django import db
 if os.path.isfile('env.py'):
     import env
+import stripe
+from dotenv import load_dotenv
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,9 +28,6 @@ TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
-
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-^rex2-cyng*60xw&mms5h38xjwrqf@hif77$1h-)3p$l8r#0v^'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -109,7 +109,11 @@ CSRF_TRUSTED_ORIGINS = [
     "http://localhost:8000",
 ]
 
-SECRET_KEY = os.environ.get('SECRET_KEY', SECRET_KEY)
+SECRET_KEY = os.environ.get('SECRET_KEY')
+STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
+STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
+
+stripe.api_key = STRIPE_SECRET_KEY
 
 
 # Password validation

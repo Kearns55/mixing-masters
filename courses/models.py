@@ -42,8 +42,7 @@ class Course(models.Model):
     description = models.TextField(null=False, blank=False)
     location = models.CharField(max_length=200, null=False, blank=False)
     start_date = models.DateTimeField(null=False, blank=False)
-
-    image = CloudinaryField("image", default="placeholder", null=True, blank=True)
+    image = CloudinaryField('image', blank=True, null=True)
 
     price = models.PositiveIntegerField(
         validators=[MinValueValidator(1)],
