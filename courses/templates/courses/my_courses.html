@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h1> Enrolled Workshops </h1>
+{% if courses %}
+    <ul>
+        {% for course in courses %}
+            <li>
+                <h2>{{ course.name }}</h2>
+                <p>{{ course.description }}</p>
+                <a href="{% url 'courses:course_detail' course.id %}">View Course</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>You are not enrolled in any workshops yet. Enroll <a href="{% url 'courses:course_list' %}">here</a>.</p>
+{% endif %}
+{% endblock %}

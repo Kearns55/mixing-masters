@@ -73,3 +73,19 @@ class Course(models.Model):
 
     def __str__(self):
         return self.name
+
+
+class Purchase(models.Model):
+    """
+    Represents a purchase of a course by a user.
+    """
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="purchases")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="purchases")
+    purchase_date = models.DateTimeField(auto_now_add=True)
+    stripe_payment_id = models.CharField(max_length=255, unique=True, null=False, blank=False)
+
+    class Meta:
+        ordering = ["-purchase_date"]
+
+    def __str__(self):
+        return f"{self.user.username} - {self.course.name} - {self.stripe_payment_id}"

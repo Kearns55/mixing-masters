@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.urls import reverse
-from .models import Course
+from django.contrib.auth.decorators import login_required
+from .models import Course, Purchase
 import stripe
 
 # Create your views here.
@@ -44,6 +45,12 @@ def create_checkout_session(request, pk):
         success_url=request.build_absolute_uri(reverse('courses:payment_success')),
         cancel_url=request.build_absolute_uri(reverse('courses:payment_cancel')),
     )
+    # Save the purchase record with the Stripe payment ID
+    Purchase.objects.create(
+        user=request.user,
+        course=course,
+        stripe_payment_id=session.id
+    )
     return redirect(session.url, code=303)
 
 
@@ -53,3 +60,11 @@ def payment_success(request):
 
 def payment_cancel(request):
     return render(request, 'courses/cancel.html')
+
+
+@login_required
+def my_courses(request):
+    # Get all purchases for the logged-in user
+    purchases = Purchase.objects.filter(user=request.user)
+    courses = [purchase.course for purchase in purchases]
+    return render(request, 'courses/my_courses.html', {'courses': courses})

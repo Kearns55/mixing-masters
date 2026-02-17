@@ -21,8 +21,8 @@ from courses import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.homepage, name='home'),
-    path('courses/<int:pk>/', views.CourseDetail.as_view(), name='courses_detail'),
     path('courses/', include('courses.urls')),
+    path('courses_detail/<int:pk>/', views.CourseDetail.as_view(), name='courses_detail'),
     path('accounts/', include('allauth.urls')),
     path('summernote/', include('django_summernote.urls')),
 ]

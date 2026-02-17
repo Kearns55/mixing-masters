@@ -1,20 +1,23 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block title %}{{ course.title }} | Mixing Masters Workshops{% endblock %}
+{% block title %}{{ course.name }} | Mixing Masters Workshops{% endblock %}
 
 {% block content %}
 <div class="container my-5">
     <div class="row">
         <div class="col-md-6">
-            <img src="{{ course.image_url }}" alt="{{ course.title }}" class="img-fluid rounded shadow-sm">
-        </div>
-        <div class="col-md-6">
-            <h1 class="mb-4">{{ course.title }}</h1>
+            <h1 class="mb-4">{{ course.name }}</h1>
+            <p class="course-pic">{% if course.image %}<img src="{{ course.image.url }}" alt="{{ course.name }}"
+                    class="img-fluid rounded shadow-sm">{% endif %}</p>
             <p class="lead">{{ course.description }}</p>
+            <p class="h4 mt-4">Max places: {{course.max_participants}} people</p>
+            <p class="h4 mt-4">Handy to have: {{course.supplies.all|join:", "}}</p>
+            <p class="h4 mt-4">Start date: {{course.start_date}}</p>
+            <p class="h4 mt-4">Location: {{course.location}}</p>
             <p class="h4 mt-4">Price: €{{ course.price }}</p>
-            <a href="#" class="btn btn-primary btn-lg mt-4">Enroll Now</a>
+            <a href="{% url 'courses:create_checkout_session' course.pk %}" class="btn btn-primary btn-lg mt-4">Book Now</a>
         </div>
     </div>
 
-{% endblock %}
+    {% endblock %}

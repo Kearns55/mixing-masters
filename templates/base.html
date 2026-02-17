@@ -38,6 +38,11 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'courses:course_list' %}">Workshops</a>
                     </li>
+                    {% if user.is_authenticated %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'courses:my_courses' %}">Enrolled Courses</a>
+                    </li>
+                    {% endif %}
                     <li class="nav-item">
                         <a class="nav-link" href="#">Get in Touch</a>
                     </li>
