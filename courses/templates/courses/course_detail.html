@@ -16,7 +16,11 @@
             <p class="h4 mt-4">Start date: {{course.start_date}}</p>
             <p class="h4 mt-4">Location: {{course.location}}</p>
             <p class="h4 mt-4">Price: €{{ course.price }}</p>
+            {% if user.is_authenticated %}
             <a href="{% url 'courses:create_checkout_session' course.pk %}" class="btn btn-primary btn-lg mt-4">Book Now</a>
+            {% else %}
+            <p class="mt-4">Please <a href="{% url 'account_login' %}" class="btn btn-outline-primary">log in</a> to book this course.</p>
+            {% endif %}
         </div>
     </div>
 
