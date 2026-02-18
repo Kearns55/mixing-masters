@@ -29,7 +29,16 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'home',
     'contact',
+    'crispy_forms',
+    'crispy_bootstrap5',
 ]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
+CRISPY_TEMPLATE_PACK = 'bootstrap5'
+
+
+
+
 
 # Cloudinary media storage
 CLOUDINARY_URL = os.getenv("CLOUDINARY_URL")
