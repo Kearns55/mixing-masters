@@ -5,4 +5,7 @@ from courses.models import Course
 
 def home(request):
     courses = Course.objects.filter(is_active=True)
-    return render(request, 'home/index.html')
+    context = {
+        'courses': courses,
+    }
+    return render(request, 'home/index.html', context)
