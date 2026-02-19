@@ -49,7 +49,7 @@ if CLOUDINARY_URL:
 
 # Stripe
 STRIPE_SECRET_KEY = os.getenv('STRIPE_SECRET_KEY')
-STRIPE_PUBLISHABLE_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
+STRIPE_PUBLIC_KEY = os.getenv('STRIPE_PUBLISHABLE_KEY')
 stripe.api_key = STRIPE_SECRET_KEY
 
 # Auth + sites
@@ -61,6 +61,7 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
