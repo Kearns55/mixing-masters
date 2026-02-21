@@ -1,11 +1,11 @@
 from django.contrib import admin
-from .models import Level, SupplyItem, Course
+from .models import Level, SupplyItem, Course, Purchase
 from django_summernote.admin import SummernoteModelAdmin
 
 # Register your models here.
 admin.site.register(Level)
 admin.site.register(SupplyItem)
-
+admin.site.register(Purchase)
 
 @admin.register(Course)
 class CourseAdmin(SummernoteModelAdmin):

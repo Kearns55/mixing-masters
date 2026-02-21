@@ -88,4 +88,4 @@ class Purchase(models.Model):
         ordering = ["-purchase_date"]
 
     def __str__(self):
-        return f"{self.user.username} - {self.course.name} - {self.stripe_payment_id}"
+        return f"{self.user.username} - {self.course.name}"

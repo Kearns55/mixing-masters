@@ -2,7 +2,9 @@ from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 from .models import Course, Purchase
+from .forms import CourseForm
 import stripe
 
 # Create your views here.
@@ -68,3 +70,17 @@ def my_courses(request):
     purchases = Purchase.objects.filter(user=request.user)
     courses = [purchase.course for purchase in purchases]
     return render(request, 'courses/my_courses.html', {'courses': courses})
+@login_required
+def update_course(request, pk):
+    if not request.user.is_superuser:
+        messages.error(request, "You do not have permission to update courses.")
+        return redirect('courses:course_list')
+    course = get_object_or_404(Course, pk=pk)
+    form = CourseForm(request.POST, request.FILES, instance=course)
+    if request.method == 'POST':
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Course updated successfully.")
+            return redirect('courses:course_list')
+        messages.error(request, "There was an error updating the course. Please check the form and try again.")
+    return render(request, 'courses/update_course.html', {'form': form, 'course': course})
