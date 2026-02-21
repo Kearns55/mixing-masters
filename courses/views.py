@@ -70,6 +70,23 @@ def my_courses(request):
     purchases = Purchase.objects.filter(user=request.user)
     courses = [purchase.course for purchase in purchases]
     return render(request, 'courses/my_courses.html', {'courses': courses})
+
+@login_required
+def create_course(request):
+    if not request.user.is_superuser:
+        messages.error(request, "You do not have permission to create courses.")
+        return redirect('courses:course_list')
+    if request.method == 'POST':
+        form = CourseForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Course created successfully.")
+            return redirect('courses:course_list')
+        messages.error(request, "There was an error creating the course. Please check the form and try again.")
+    else:
+        form = CourseForm()
+    return render(request, 'courses/create_course.html', {'form': form})
+
 @login_required
 def update_course(request, pk):
     if not request.user.is_superuser:
