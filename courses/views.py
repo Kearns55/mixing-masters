@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.views.generic import ListView, DetailView
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
@@ -84,3 +84,16 @@ def update_course(request, pk):
             return redirect('courses:course_list')
         messages.error(request, "There was an error updating the course. Please check the form and try again.")
     return render(request, 'courses/update_course.html', {'form': form, 'course': course})
+
+
+@login_required
+def delete_course(request, pk):
+    if not request.user.is_superuser:
+        messages.error(request, "You do not have permission to delete courses.")
+        return redirect('courses:course_list')
+    course = get_object_or_404(Course, pk=pk)
+    if request.method == 'POST':
+        course.delete()
+        messages.success(request, "Course deleted successfully.")
+        return redirect('courses:course_list')
+    return render(request, 'courses/delete_course.html', {'course': course})

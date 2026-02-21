@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
 
-<body>
     <h1>Courses list</h1>
     {% for course in courses %}
     <h2>{{course.name}}</h2>
+{% if user.is_superuser %}
+<a class="btn btn-success" href="{% url 'courses:update_course' course.pk %}">Update Course</a>
+{% endif %}
     <p>{{course.description}}</p>
     <p class="course-pic">{% if course.image %}<img src="{{ course.image.url }}" alt="{{ course.title }}"
             class="card-img-top img-fluid rounded">{% endif %}</p>
@@ -13,7 +15,10 @@
     <p>Handy to bring: {{course.supplies.all|join:", "}}</p>
     <p>Start date: {{course.start_date}}</p>
     <p>Location: {{course.location}}</p>
+{% if user.is_superuser %}
+<a class="btn btn-danger" href="{% url 'courses:delete_course' course.pk %}">Delete Course</a>
+{% endif %}
     {% endfor %}
-</body>
+
 
 {% endblock content %}
