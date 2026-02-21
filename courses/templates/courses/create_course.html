@@ -7,8 +7,23 @@
 
 <form method="post">
     {% csrf_token %}
+
     {{ form|crispy }}
-    <button type="submit" class="btn btn-primary">Create Course</button>
+
+    {% if request.user.is_superuser %}
+        <hr>
+        <h5>Add New Supply</h5>
+        <input type="text" name="new_supply_name" class="form-control mb-2" placeholder="Supply name">
+        <button type="submit" name="add_supply" class="btn btn-secondary">
+            + Add Supply
+        </button>
+        <hr>
+    {% endif %}
+
+    <button type="submit" name="create_course" class="btn btn-primary">
+        Create Course
+    </button>
+
 </form>
 
 {% endblock %}

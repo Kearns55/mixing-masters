@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Course, Purchase
+from .models import Course, Purchase, SupplyItem
 from .forms import CourseForm
 import stripe
 
@@ -71,12 +71,25 @@ def my_courses(request):
     courses = [purchase.course for purchase in purchases]
     return render(request, 'courses/my_courses.html', {'courses': courses})
 
+
 @login_required
 def create_course(request):
     if not request.user.is_superuser:
         messages.error(request, "You do not have permission to create courses.")
         return redirect('courses:course_list')
     if request.method == 'POST':
+        # If "+ Add Supply" clicked
+        if 'add_supply' in request.POST:
+            name = request.POST.get('new_supply_name')
+
+            if name:
+                SupplyItem.objects.create(name=name)
+                messages.success(request, "Supply added successfully.")
+            else:
+                messages.error(request, "Supply name cannot be empty.")
+
+            form = CourseForm()  # reload form so new supply appears
+            return render(request, 'courses/create_course.html', {'form': form})
         form = CourseForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
@@ -86,6 +99,7 @@ def create_course(request):
     else:
         form = CourseForm()
     return render(request, 'courses/create_course.html', {'form': form})
+
 
 @login_required
 def update_course(request, pk):
@@ -114,3 +128,4 @@ def delete_course(request, pk):
         messages.success(request, "Course deleted successfully.")
         return redirect('courses:course_list')
     return render(request, 'courses/delete_course.html', {'course': course})
+
