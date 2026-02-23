@@ -3,7 +3,7 @@ from django.views.generic import ListView, DetailView
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .models import Course, Purchase, SupplyItem
+from .models import Course, Level, Purchase, SupplyItem
 from .forms import CourseForm
 import stripe
 
@@ -81,15 +81,25 @@ def create_course(request):
         # If "+ Add Supply" clicked
         if 'add_supply' in request.POST:
             name = request.POST.get('new_supply_name')
-
-            if name:
-                SupplyItem.objects.create(name=name)
-                messages.success(request, "Supply added successfully.")
+            supply, created = SupplyItem.objects.get_or_create(name=name)
+            if created:
+                messages.success(request, "Supply item added successfully.")
             else:
-                messages.error(request, "Supply name cannot be empty.")
-
+                messages.info(request, "Supply item already exists.")
             form = CourseForm()  # reload form so new supply appears
             return render(request, 'courses/create_course.html', {'form': form})
+        # Add level
+        if 'add_level' in request.POST:
+            name = request.POST.get('new_level_name')
+            level, created = Level.objects.get_or_create(name=name)
+            if created:
+                messages.success(request, "Level added successfully.")
+            else:
+                messages.info(request, "Level already exists.")
+            
+            form = CourseForm()  # reload form so new level appears
+            return render(request, 'courses/create_course.html', {'form': form})
+        
         form = CourseForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
