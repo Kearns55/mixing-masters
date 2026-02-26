@@ -3,6 +3,8 @@ from django.views.generic import ListView, DetailView
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
+from django.core.mail import send_mail
+from django.conf import settings
 from .models import Course, Level, Purchase, SupplyItem
 from .forms import CourseForm
 import stripe
@@ -34,7 +36,7 @@ def create_checkout_session(request, pk):
         payment_method_types=['card'],
         line_items=[{
             'price_data': {
-                'currency': 'usd',
+                'currency': 'eur',
                 'product_data': {
                     'name': course.name,
                     'description': course.description,
@@ -44,20 +46,71 @@ def create_checkout_session(request, pk):
             'quantity': 1,
         }],
         mode='payment',
-        success_url=request.build_absolute_uri(reverse('courses:payment_success')),
-        cancel_url=request.build_absolute_uri(reverse('courses:payment_cancel')),
+        success_url=request.build_absolute_uri(
+            reverse('courses:payment_success')
+        ) + "?session_id={CHECKOUT_SESSION_ID}",  # ← important
+        cancel_url=request.build_absolute_uri(
+            reverse('courses:payment_cancel')
+        ),
+        metadata={
+            'user_id': request.user.id,
+            'course_id': course.id
+        }
     )
-    # Save the purchase record with the Stripe payment ID
-    Purchase.objects.create(
+    return redirect(session.url, code=303)
+
+@login_required
+def payment_success(request):
+    session_id = request.GET.get("session_id")
+
+    if not session_id:
+        messages.error(request, "No session ID provided.")
+        return redirect("courses:course_list")
+
+    session = stripe.checkout.Session.retrieve(session_id)
+
+    if session.payment_status != "paid":
+        messages.error(request, "Payment not completed.")
+        return redirect("courses:course_list")
+
+    user_id = session.metadata.get("user_id")
+    course_id = session.metadata.get("course_id")
+
+    if str(request.user.id) != user_id:
+        messages.error(request, "Unauthorized access.")
+        return redirect("courses:course_list")
+
+    course = Course.objects.get(id=course_id)
+
+    # Prevent duplicate purchases
+    purchase, created = Purchase.objects.get_or_create(
         user=request.user,
         course=course,
         stripe_payment_id=session.id
     )
-    return redirect(session.url, code=303)
+
+    if created:
+        send_purchase_email(request.user, course)
+
+    return render(request, "courses/success.html", {"course": course})
 
 
-def payment_success(request):
-    return render(request, 'courses/success.html')
+def send_purchase_email(user, course):
+    send_mail(
+        subject="Your Course is Ready 🎉",
+        message=f"""
+        Hi {user.username},
+
+        Thank you for purchasing {course.name}.
+
+        You can now access your course in your dashboard.
+
+        Mixing Masters
+        """,
+        from_email=settings.DEFAULT_FROM_EMAIL,
+        recipient_list=[user.email],
+        fail_silently=False,
+    )
 
 
 def payment_cancel(request):
@@ -138,4 +191,3 @@ def delete_course(request, pk):
         messages.success(request, "Course deleted successfully.")
         return redirect('courses:course_list')
     return render(request, 'courses/delete_course.html', {'course': course})
-
