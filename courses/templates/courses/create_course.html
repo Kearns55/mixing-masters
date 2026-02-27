@@ -5,7 +5,7 @@
 
 <h1>Create new course</h1>
 
-<form method="post">
+<form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <h5>Add new level</h5>
     <input type="text" name="new_level_name" class="form-control mb-2" placeholder="Level name">
