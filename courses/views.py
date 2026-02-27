@@ -169,16 +169,25 @@ def update_course(request, pk):
     if not request.user.is_superuser:
         messages.error(request, "You do not have permission to update courses.")
         return redirect('courses:course_list')
+
     course = get_object_or_404(Course, pk=pk)
-    form = CourseForm(request.POST, request.FILES, instance=course)
+
     if request.method == 'POST':
+        form = CourseForm(request.POST, request.FILES, instance=course)
         if form.is_valid():
             form.save()
             messages.success(request, "Course updated successfully.")
             return redirect('courses:course_list')
-        messages.error(request, "There was an error updating the course. Please check the form and try again.")
-    return render(request, 'courses/update_course.html', {'form': form, 'course': course})
+        else:
+            messages.error(request, "There was an error updating the course. Please check the form and try again.")
+    else:
+        # 🔥 This is what auto-populates the form
+        form = CourseForm(instance=course)
 
+    return render(request, 'courses/update_course.html', {
+        'form': form,
+        'course': course
+    })
 
 @login_required
 def delete_course(request, pk):
