@@ -1,3 +1,10 @@
+.main-content {
+  background-image: url('../images/mixing_background.png');
+  padding-top: 1rem;
+  background-size: cover;
+  background-position: center;
+  background-attachment: fixed;
+}
 
 .navbar {
   background-color: var(--bg-secondary);

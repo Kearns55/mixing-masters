@@ -142,6 +142,13 @@ USE_TZ = True
 
 # Static files
 STATIC_URL = '/static/'
+# For development only; optional
+STATICFILES_DIRS = [
+    os.path.join(BASE_DIR, "static"),
+]
+
+# For collectstatic / production
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
 
 # Default primary key
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
