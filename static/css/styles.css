@@ -1,3 +1,14 @@
+:root{
+  --bg-secondary: #150706;
+  --text-main: #F5F1EE;
+  --text-muted: #ffffff;
+  --btn: #B22222;
+  --accent-gold: #d4af37;
+  --border-soft: rgba(255, 255, 255, 0.1);
+  --font-primary: 'Amarante', cursive;
+}
+
+
 .main-content {
   background-image: url('../images/mixing_background.png');
   padding-top: 1rem;
@@ -68,11 +79,37 @@
   color: var(--accent-gold);
 }
 
-/* =========================
-   Optional Sticky Navbar
-   ========================= */
 .navbar.sticky {
   position: sticky;
   top: 0;
   z-index: 1000;
+}
+
+h1 {
+  font-size: 2.5rem;
+  font-family: var(--font-primary);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--accent-gold);
+  margin-bottom: 1rem;
+}
+
+
+.btn {
+  background-color: var(--btn);
+  color: var(--text-main);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 0.9rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+footer{
+  background-color: #0D0605;
+  color: var(--text-muted);
+  text-align: center;
+  padding: 1rem 0;
 }

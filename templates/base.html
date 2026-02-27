@@ -16,12 +16,16 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
-    {% block extra_css %}{% endblock %}
+    <!-- Google Fonts -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Amarante&display=swap" rel="stylesheet">
+        {% block extra_css %}{% endblock %}
 </head>
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <nav class="navbar navbar-expand-lg">
         <div class="container">
             <a class="navbar-brand" href="{% url 'home:home' %}">
                 🍸 Mixing Masters
@@ -66,27 +70,27 @@
             </div>
         </div>
     </nav>
-<div class="main-content">
-    <main class="container mt-4">
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-            {{ message }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
-        {% endfor %}
-        {% endif %}
+    <div class="main-content">
+        <main class="container mt-4">
+            {% if messages %}
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+            {% endfor %}
+            {% endif %}
 
-        {% block content %}
-        {% endblock %}
+            {% block content %}
+            {% endblock %}
 
-    </main>
+        </main>
 
         <footer class="text-center text-muted py-3 mt-5">
-        <small>
-            © {{ now|date:"Y" }} Mixing Masters Workshops
-        </small>
-    </footer>
+            <small>
+                © {{ now|date:"Y" }} Mixing Masters Workshops
+            </small>
+        </footer>
     </div>
 
     <!-- Bootstrap JS -->
