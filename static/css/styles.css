@@ -104,9 +104,9 @@ h4, h2, p {
   font-family: var(--font-secondary);
 }
 
-#detail_img {
+.detail_img {
   max-width: 100%;
-  height: auto;
+  height: 50%;
   border-radius: 0.5rem;
   border: 1px solid var(--border-soft);
 }
@@ -120,6 +120,10 @@ h4, h2, p {
   font-size: 0.9rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
+}
+
+.course-list-btn {
+  max-width: 25rem;
 }
 
 .btn:hover {

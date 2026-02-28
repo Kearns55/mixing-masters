@@ -1,27 +1,54 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h1>Courses list</h1>
-{% if user.is_superuser %}
-<a class="btn btn-success" href="{% url 'courses:create_course' %}">Create Courses</a>
-{% endif %}
-{% for course in courses %}
-<h2>{{course.name}}</h2>
-{% if user.is_superuser %}
-<a class="btn btn-success" href="{% url 'courses:update_course' course.pk %}">Update Course</a>
-{% endif %}
-<p>{{course.description}}</p>
-<p class="course-pic">{% if course.image %}<img src="{{ course.image.url }}" alt="{{ course.title }}"
-        class="card-img-top img-fluid rounded">{% endif %}</p>
-<p>Price: € {{course.price}}</p>
-<p>Max places: {{course.max_participants}} people</p>
-<p>Handy to bring: {{course.supplies.all|join:", "}}</p>
-<p>Start date: {{course.start_date}}</p>
-<p>Location: {{course.location}}</p>
-{% if user.is_superuser %}
-<a class="btn btn-danger" href="{% url 'courses:delete_course' course.pk %}">Delete Course</a>
-{% endif %}
-{% endfor %}
-
-
+<div class="container my-5">
+    <h1 class="mb-4 text-center">All Workshops</h1>
+    {% if user.is_superuser %}
+    <div class="mb-4 text-center">
+        <a class="btn btn-success" href="{% url 'courses:create_course' %}">Create Course</a>
+    </div>
+    {% endif %}
+    <div class="row">
+        {% for course in courses %}
+        <div class="col-md-6 col-lg-4 mb-4">
+            <div class="card h-100 shadow-sm">
+                {% if course.image %}
+                <img src="{{ course.image.url }}" alt="{{ course.name }}" class="card-img-top img-fluid rounded">
+                {% endif %}
+                <div class="card-body d-flex flex-column">
+                    <h2 class="card-title h5">{{ course.name }}</h2>
+                    <p class="card-text">{{ course.description|truncatechars:120 }}</p>
+                    <ul class="list-unstyled mb-2">
+                        <li><strong>Price:</strong> €{{ course.price }}</li>
+                        <li><strong>Max places:</strong> {{ course.max_participants }}</li>
+                        <li>
+                            <strong>Supplies:</strong>
+                            <ul>
+                                {% for item in course.supplies.all %}
+                                <li>{{ item }}</li>
+                                {% empty %}
+                                <li>None</li>
+                                {% endfor %}
+                            </ul>
+                        </li>
+                        <li><strong>Start date:</strong> {{ course.start_date|date:"D, d M Y H:i" }}</li>
+                        <li><strong>Location:</strong> {{ course.location }}</li>
+                    </ul>
+                    <div class="mt-auto d-flex justify-content-between">
+                        {% if user.is_superuser %}
+                        <div>
+                            <a class="btn btn-sm btn-success me-2" href="{% url 'courses:update_course' course.pk %}">Update</a>
+                            <a class="btn btn-sm btn-danger" href="{% url 'courses:delete_course' course.pk %}">Delete</a>
+                        </div>
+                        {% endif %}
+                        <a class="btn btn-primary btn-sm" href="{% url 'courses:course_detail' course.pk %}">View</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <p class="text-center">No workshops available right now. Check back soon!</p>
+        {% endfor %}
+    </div>
+</div>
 {% endblock content %}
