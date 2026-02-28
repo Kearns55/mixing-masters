@@ -42,7 +42,7 @@
                     </li>
                     {% if user.is_authenticated %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{% url 'courses:my_courses' %}">Enrolled Courses</a>
+                        <a class="nav-link" href="{% url 'courses:my_courses' %}">My Workshops</a>
                     </li>
                     {% endif %}
                     <li class="nav-item">
@@ -86,9 +86,9 @@
 
         </main>
 
-        <footer class="text-center text-muted py-3 mt-5">
+        <footer class="text-center py-3 mt-5">
             <small>
-                © {{ now|date:"Y" }} Mixing Masters Workshops
+                © Mixing Masters Workshops
             </small>
         </footer>
     </div>

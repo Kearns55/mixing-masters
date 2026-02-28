@@ -1,8 +1,9 @@
 :root{
+  --bg-main: #641919;
   --bg-secondary: #150706;
-  --text-main: #F5F1EE;
+  --text-main: #000000;
   --text-muted: #ffffff;
-  --btn: #B22222;
+  --btn-hover: #B22222;
   --accent-gold: #d4af37;
   --border-soft: rgba(255, 255, 255, 0.1);
   --font-primary: 'Amarante', cursive;
@@ -96,18 +97,29 @@ h1 {
 
 
 .btn {
-  background-color: var(--btn);
-  color: var(--text-main);
+  background-color: var(--bg-main);
+  color: var(--text-muted);
   border: none;
   padding: 0.75rem 1.5rem;
   font-size: 0.9rem;
   letter-spacing: 0.1em;
   text-transform: uppercase;
-  cursor: pointer;
-  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn:hover {
+  background-color: var(--btn-hover);
+  color: var(--text-muted);
+}
+
+.card{
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-soft);
+  border-radius: 0.5rem;
+  color: var(--text-muted);
 }
 
 footer{
+  bottom: 0;
   background-color: #0D0605;
   color: var(--text-muted);
   text-align: center;

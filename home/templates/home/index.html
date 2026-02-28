@@ -20,11 +20,11 @@
                 <div class="card-body d-flex flex-column">
 
                     <h5 class="card-title">
-                        {{ course.name }}
+                        <em>{{ course.name }}</em>
                     </h5>
 
                     <p class="card-text">
-                        {{ course.description|truncatewords:20 }}
+                        {{ course.description|truncatechars:100 }}
                     </p>
 
                     <p class="card-text">
@@ -33,7 +33,7 @@
 
                     <div class="mt-auto">
                         <a href="{% url 'courses:course_detail' course.pk %}" class="btn btn-primary w-100">
-                            View Course
+                            More Info
                         </a>
                     </div>
 
@@ -43,8 +43,5 @@
         {% empty %}
         <p class="text-center">No courses available.</p>
         {% endfor %}
-
     </div>
-</div>
-
 {% endblock %}

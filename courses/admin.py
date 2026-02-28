@@ -14,4 +14,5 @@ class CourseAdmin(SummernoteModelAdmin):
     list_filter = ('level', 'is_active')
     search_fields = ('name', 'description', 'location')
     summernote_fields = ('description',)
+   
 
