@@ -37,7 +37,6 @@ class Course(models.Model):
     Different courses offered for purchase.
     """
     level = models.ForeignKey(Level, on_delete=models.PROTECT, related_name="courses")
-
     name = models.CharField(max_length=200, null=False, blank=False)
     description = models.TextField(null=False, blank=False)
     location = models.CharField(max_length=200, null=False, blank=False)

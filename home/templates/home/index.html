@@ -10,7 +10,7 @@
 <div class="container">
     <div class="row">
 
-        {% for course in courses %}
+        {% for course in latest_courses %}
         <div class="col-md-4 mb-4">
             <div class="card h-100 shadow-sm">
 
@@ -36,12 +36,16 @@
                             More Info
                         </a>
                     </div>
-
                 </div>
             </div>
         </div>
         {% empty %}
-        <p class="text-center">No courses available.</p>
+        <p class="text-center">No workshops available.</p>
         {% endfor %}
     </div>
-{% endblock %}
+    <div class="d-grid mt-4">
+        <a href="{% url 'courses:course_list' %}" class="btn btn-primary btn-lg w-100">
+            View All Workshops
+        </a>
+    </div>
+    {% endblock %}

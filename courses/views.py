@@ -24,11 +24,6 @@ class CourseDetail(DetailView):
     context_object_name = "course"
 
 
-def homepage(request):
-    courses = Course.objects.all()
-    return render(request, "home/index.html", {"courses": courses})
-
-
 def create_checkout_session(request, pk):
     course = Course.objects.get(pk=pk)
 

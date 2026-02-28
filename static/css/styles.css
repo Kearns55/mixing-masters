@@ -7,6 +7,7 @@
   --accent-gold: #d4af37;
   --border-soft: rgba(255, 255, 255, 0.1);
   --font-primary: 'Amarante', cursive;
+  --font-secondary: 'Montserrat Alternates', sans-serif;
 }
 
 
@@ -93,6 +94,21 @@ h1 {
   text-transform: uppercase;
   color: var(--accent-gold);
   margin-bottom: 1rem;
+}
+
+h4, h2, p {
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-muted);
+  margin-bottom: 1rem;
+  font-family: var(--font-secondary);
+}
+
+#detail_img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 0.5rem;
+  border: 1px solid var(--border-soft);
 }
 
 

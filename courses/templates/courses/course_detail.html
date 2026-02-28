@@ -5,22 +5,26 @@
 
 {% block content %}
 <div class="container my-5">
-    <div class="row">
+    <div class="row justify-content-center">
         <div class="col-md-6">
-            <h1 class="mb-4">{{ course.name }}</h1>
-            <p class="course-pic">{% if course.image %}<img src="{{ course.image.url }}" alt="{{ course.name }}"
+            <h1 class="mb-4 text-center">{{ course.name }}</h1>
+            <div class="card mb-4">
+            <p class="course-pic" id="detail_img">{% if course.image %}<img src="{{ course.image.url }}" alt="{{ course.name }}"
                     class="img-fluid rounded shadow-sm">{% endif %}</p>
-            <p class="lead">{{ course.description }}</p>
-            <p class="h4 mt-4">Max places: {{course.max_participants}} people</p>
-            <p class="h4 mt-4">Handy to have: {{course.supplies.all|join:", "}}</p>
-            <p class="h4 mt-4">Start date: {{course.start_date}}</p>
-            <p class="h4 mt-4">Location: {{course.location}}</p>
-            <p class="h4 mt-4">Price: €{{ course.price }}</p>
+            <div class="card-body">
+            <h2 class="lead">{{ course.description }}</h2>
+            <p class="mt-4">Max places: {{course.max_participants}} people</p>
+            <p class="mt-4">Handy to have: {{course.supplies.all|join:", "}}</p>
+            <p class="mt-4">Start date: {{course.start_date}}</p>
+            <p class="mt-4">Location: {{course.location}}</p>
+            <p class="mt-4">Price: €{{ course.price }}</p>
             {% if user.is_authenticated %}
+            </div>
             <a href="{% url 'courses:create_checkout_session' course.pk %}" class="btn btn-primary btn-lg mt-4">Book Now</a>
             {% else %}
-            <p class="mt-4">Please <a href="{% url 'account_login' %}" class="btn btn-outline-primary">log in</a> to book this course.</p>
+            <a href="{% url 'account_login' %}" class="btn btn-outline-primary">Log in to Book</a>
             {% endif %}
+            </div>
         </div>
     </div>
 

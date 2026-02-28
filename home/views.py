@@ -1,11 +1,9 @@
 from django.shortcuts import render
 from courses.models import Course
-# Create your views here.
 
 
-def home(request):
-    courses = Course.objects.filter(is_active=True)
-    context = {
-        'courses': courses,
-    }
-    return render(request, 'home/index.html', context)
+def homepage(request):
+    latest_courses = Course.objects.order_by('-created_at')[:3]
+    return render(request, "home/index.html", {
+        "latest_courses": latest_courses
+    })
