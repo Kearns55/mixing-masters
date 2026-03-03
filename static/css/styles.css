@@ -185,6 +185,12 @@ label {
   color: var(--text-main);
 }
 
+#signout-form {
+  background: none;
+  border: none;
+  padding-top: 0;
+}
+
 footer{
   position: sticky;
   top: 100vh;
