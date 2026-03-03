@@ -138,8 +138,48 @@ h4, h2, p {
   color: var(--text-muted);
 }
 
+form {
+  padding: 2rem;
+  max-width: max-content;
+  justify-content: center;
+  margin: 0 auto;
+  background-color: var(--accent-gold);
+  border-radius: 0.5rem;
+}
+
+#id_message {
+  resize: none;
+}
+
+label {
+  font-family: var(--font-secondary);
+  color: var(--text-main);
+  border-radius: 0.25rem;
+}
+
+.form-btn {
+  display: block;
+  margin: 1rem auto 0;
+  color: var(--accent-gold);
+  background-color: var(--text-main);
+}
+
+.form-btn:hover {
+  background-color: var(--text-muted);
+  color: var(--text-main);
+}
+
+.form-link-text {
+  color: var(--text-muted);
+}
+
+.password-link-text {
+  color: var(--text-main);
+}
+
 footer{
-  bottom: 0;
+  position: sticky;
+  top: 100vh;
   background-color: #0D0605;
   color: var(--text-muted);
   text-align: center;
