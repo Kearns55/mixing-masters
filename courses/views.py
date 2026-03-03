@@ -5,6 +5,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.core.mail import send_mail
 from django.conf import settings
+from django.db import IntegrityError
 from .models import Course, Level, Purchase, SupplyItem
 from .forms import CourseForm
 import stripe
@@ -24,9 +25,16 @@ class CourseDetail(DetailView):
     context_object_name = "course"
 
 
+@login_required
 def create_checkout_session(request, pk):
-    course = Course.objects.get(pk=pk)
+    course = get_object_or_404(Course, pk=pk)
 
+    # Blocks stripe payment if user already purchased
+    if Purchase.objects.filter(user=request.user, course=course).exists():
+        messages.warning(request, "You have already purchased this workshop.")
+        return redirect("courses:my_courses")  # Redirect to their purchased workshops
+
+    # Only create Stripe session if not purchased
     session = stripe.checkout.Session.create(
         payment_method_types=['card'],
         customer_email=request.user.email,
@@ -37,14 +45,14 @@ def create_checkout_session(request, pk):
                     'name': course.name,
                     'description': course.description,
                 },
-                'unit_amount': course.price * 100,  # Stripe uses cents
+                'unit_amount': int(course.price * 100),
             },
             'quantity': 1,
         }],
         mode='payment',
         success_url=request.build_absolute_uri(
             reverse('courses:payment_success')
-        ) + "?session_id={CHECKOUT_SESSION_ID}",  # ← important
+        ) + "?session_id={CHECKOUT_SESSION_ID}",
         cancel_url=request.build_absolute_uri(
             reverse('courses:payment_cancel')
         ),
@@ -80,14 +88,18 @@ def payment_success(request):
     course = Course.objects.get(id=course_id)
 
     # Prevent duplicate purchases
-    purchase, created = Purchase.objects.get_or_create(
-        user=request.user,
-        course=course,
-        stripe_payment_id=session.id
-    )
-
-    if created:
+    try:
+        Purchase.objects.create(
+            user=request.user,
+            course=course,
+            stripe_payment_id=session.id
+        )
         send_purchase_email(request.user, course)
+
+    except IntegrityError:
+        messages.info(request,
+                      "You have already purchased this workshop.")
+        return redirect("courses:course_list")
 
     return render(request, "courses/success.html", {"course": course})
 
@@ -147,10 +159,9 @@ def create_course(request):
                 messages.success(request, "Level added successfully.")
             else:
                 messages.info(request, "Level already exists.")
-            
             form = CourseForm()  # reload form so new level appears
             return render(request, 'courses/create_course.html', {'form': form})
-        
+
         form = CourseForm(request.POST, request.FILES)
         if form.is_valid():
             form.save()
@@ -186,6 +197,7 @@ def update_course(request, pk):
         'form': form,
         'course': course
     })
+
 
 @login_required
 def delete_course(request, pk):

@@ -9,7 +9,8 @@ class Level(models.Model):
     Level of difficulty for each Course offered.
     Examples: Beginner, Intermediate, Advanced.
     """
-    name = models.CharField(max_length=32, unique=True, null=False, blank=False)
+    name = models.CharField(max_length=32, unique=True, null=False,
+                            blank=False)
 
     class Meta:
         ordering = ["name"]
@@ -23,7 +24,8 @@ class SupplyItem(models.Model):
     Items/Supplies a student might need to attend (generic items).
     Examples: tools, spirits, mixers, glassware, garnishes, etc.
     """
-    name = models.CharField(max_length=120, unique=True, null=False, blank=False)
+    name = models.CharField(max_length=120, unique=True, null=False,
+                            blank=False)
 
     class Meta:
         ordering = ["name"]
@@ -36,7 +38,8 @@ class Course(models.Model):
     """
     Different courses offered for purchase.
     """
-    level = models.ForeignKey(Level, on_delete=models.PROTECT, related_name="courses")
+    level = models.ForeignKey(Level, on_delete=models.PROTECT,
+                              related_name="courses")
     name = models.CharField(max_length=200, null=False, blank=False)
     description = models.TextField(null=False, blank=False)
     location = models.CharField(max_length=200, null=False, blank=False)
@@ -78,12 +81,20 @@ class Purchase(models.Model):
     """
     Represents a purchase of a course by a user.
     """
-    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="purchases")
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name="purchases")
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             related_name="purchases")
+    course = models.ForeignKey(Course, on_delete=models.CASCADE,
+                               related_name="purchases")
     purchase_date = models.DateTimeField(auto_now_add=True)
-    stripe_payment_id = models.CharField(max_length=255, unique=True, null=False, blank=False)
+    stripe_payment_id = models.CharField(max_length=255, unique=True,
+                                         null=False, blank=False)
 
     class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=['user', 'course'],
+                name='unique_user_course_purchase'),
+            ]
         ordering = ["-purchase_date"]
 
     def __str__(self):
