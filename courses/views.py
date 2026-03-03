@@ -29,6 +29,7 @@ def create_checkout_session(request, pk):
 
     session = stripe.checkout.Session.create(
         payment_method_types=['card'],
+        customer_email=request.user.email,
         line_items=[{
             'price_data': {
                 'currency': 'eur',
@@ -53,6 +54,7 @@ def create_checkout_session(request, pk):
         }
     )
     return redirect(session.url, code=303)
+
 
 @login_required
 def payment_success(request):
@@ -98,8 +100,9 @@ def send_purchase_email(user, course):
 
         Thank you for purchasing {course.name}.
 
-        You can now access your course in your dashboard.
+        You can now view your workshop details in your dashboard.
 
+        All the best,
         Mixing Masters
         """,
         from_email=settings.DEFAULT_FROM_EMAIL,
