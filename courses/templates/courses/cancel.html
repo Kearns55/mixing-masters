@@ -1,13 +1,18 @@
 {% extends "base.html" %}
+{% load static %}
 <!DOCTYPE html>
 <html>
 <head>
   <title>Checkout canceled</title>
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
+{% block content %}
 <body>
   <section>
-    <p>Forgot to add something to your cart? Shop around then come back to pay!</p>
+    <h1 class="text-center">Checkout Canceled</h1>
+    <p class="text-center">Oops! Something went wrong. Please try again later.</p>
+    <a href="{% url 'courses:course_list' %}" class="btn btn-primary mx-auto d-table">Back to workshops</a>
   </section>
 </body>
+{% endblock %}
 </html>
