@@ -7,7 +7,7 @@ from django.core.mail import send_mail
 from django.conf import settings
 from django.db import IntegrityError
 from .models import Course, Level, Purchase, SupplyItem
-from .forms import CourseForm
+from .forms import CourseForm, LevelForm, SupplyItemForm
 import stripe
 
 # Create your views here.
@@ -135,31 +135,65 @@ def my_courses(request):
     return render(request, 'courses/my_courses.html', {'courses': courses})
 
 
+def _add_level_and_select(request, data):
+    """Helper function to add new levels and pre-select on form creation."""
+    name = (request.POST.get("new_level_name") or "").strip()
+    if not name:
+        messages.error(request, "Please enter a level name.")
+        return None
+
+    level, created = Level.objects.get_or_create(name=name)
+    messages.success(
+        request,
+        "Level added successfully." if created else "Level already exists."
+    )
+
+    # Auto-select the new/existing level
+    data["level"] = str(level.id)
+    return level
+
+
+def _add_supply_and_select(request, data):
+    """Helper function to add new supply and pre-select on form creation."""
+    name = (request.POST.get("new_supply_name") or "").strip()
+    if not name:
+        messages.error(request, "Please enter a supply name.")
+        return None
+
+    supply, created = SupplyItem.objects.get_or_create(name=name)
+    messages.success(
+        request,
+        "Supply item added successfully." if created else "Supply item already exists."
+    )
+
+    # Auto-select: add to the selected supplies list
+    selected = data.getlist("supplies")  # e.g. ["1", "3"]
+    supply_id = str(supply.id)
+    if supply_id not in selected:
+        selected.append(supply_id)
+        data.setlist("supplies", selected)
+
+    return supply
+
+
 @login_required
 def create_course(request):
     if not request.user.is_superuser:
         messages.error(request, "You do not have permission to create courses.")
         return redirect('courses:course_list')
     if request.method == 'POST':
+        # Make a mutable copy of POST data to modify for adding levels/supplies
+        data = request.POST.copy()
+
         # If "+ Add Supply" clicked
         if 'add_supply' in request.POST:
-            name = request.POST.get('new_supply_name')
-            supply, created = SupplyItem.objects.get_or_create(name=name)
-            if created:
-                messages.success(request, "Supply item added successfully.")
-            else:
-                messages.info(request, "Supply item already exists.")
-            form = CourseForm()  # reload form so new supply appears
+            _add_supply_and_select(request, data)
+            form = CourseForm(data, request.FILES)
             return render(request, 'courses/create_course.html', {'form': form})
         # Add level
         if 'add_level' in request.POST:
-            name = request.POST.get('new_level_name')
-            level, created = Level.objects.get_or_create(name=name)
-            if created:
-                messages.success(request, "Level added successfully.")
-            else:
-                messages.info(request, "Level already exists.")
-            form = CourseForm()  # reload form so new level appears
+            _add_level_and_select(request, data)
+            form = CourseForm(data, request.FILES)
             return render(request, 'courses/create_course.html', {'form': form})
 
         form = CourseForm(request.POST, request.FILES)
@@ -167,7 +201,11 @@ def create_course(request):
             form.save()
             messages.success(request, "Course created successfully.")
             return redirect('courses:course_list')
-        messages.error(request, "There was an error creating the course. Please check the form and try again.")
+        messages.error(
+            request,
+            "There was an error creating the course."
+            "Please check the form and try again."
+        )
     else:
         form = CourseForm()
     return render(request, 'courses/create_course.html', {'form': form})
@@ -190,7 +228,6 @@ def update_course(request, pk):
         else:
             messages.error(request, "There was an error updating the course. Please check the form and try again.")
     else:
-        # 🔥 This is what auto-populates the form
         form = CourseForm(instance=course)
 
     return render(request, 'courses/update_course.html', {
@@ -210,3 +247,95 @@ def delete_course(request, pk):
         messages.success(request, "Course deleted successfully.")
         return redirect('courses:course_list')
     return render(request, 'courses/delete_course.html', {'course': course})
+
+
+@login_required
+def update_level(request, pk):
+    if not request.user.is_superuser:
+        messages.error(request, "You do not have permission to update levels.")
+        return redirect('courses:course_list')
+
+    level = get_object_or_404(Level, pk=pk)
+
+    if request.method == 'POST':
+        form = LevelForm(request.POST, instance=level)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Level updated successfully.")
+            return redirect('courses:admin_dashboard')
+        else:
+            messages.error(request, "There was an error updating the level. Please check the form and try again.")
+    else:
+        form = LevelForm(instance=level)
+
+    return render(request, 'courses/update_level.html', {
+        'form': form,
+        'level': level
+    })
+
+
+@login_required
+def update_supply(request, pk):
+    if not request.user.is_superuser:
+        messages.error(request, "You do not have permission to update supply items.")
+        return redirect('courses:course_list')
+
+    supply = get_object_or_404(SupplyItem, pk=pk)
+
+    if request.method == 'POST':
+        form = SupplyItemForm(request.POST, instance=supply)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Supply item updated successfully.")
+            return redirect('courses:admin_dashboard')
+        else:
+            messages.error(request, "There was an error updating the supply item. Please check the form and try again.")
+    else:
+        form = SupplyItemForm(instance=supply)
+
+    return render(request, 'courses/update_supply.html', {
+        'form': form,
+        'supply': supply
+    })
+
+
+@login_required
+def delete_level(request, pk):
+    if not request.user.is_superuser:
+        messages.error(request, "You do not have permission to delete levels.")
+        return redirect('courses:course_list')
+    level = get_object_or_404(Level, pk=pk)
+    if request.method == 'POST':
+        level.delete()
+        messages.success(request, "Level deleted successfully.")
+        return redirect('courses:admin_dashboard')
+    return render(request, 'courses/delete_level.html', {'level': level})
+
+
+@login_required
+def delete_supply(request, pk):
+    if not request.user.is_superuser:
+        messages.error(request, "You do not have permission to delete supply items.")
+        return redirect('courses:course_list')
+    supply = get_object_or_404(SupplyItem, pk=pk)
+    if request.method == 'POST':
+        supply.delete()
+        messages.success(request, "Supply item deleted successfully.")
+        return redirect('courses:admin_dashboard')
+    return render(request, 'courses/delete_supply.html', {'supply': supply})
+
+
+@login_required
+def admin_dashboard(request):
+    if not request.user.is_superuser:
+        messages.error(request, "You do not have permission to access this page.")
+        return redirect('courses:course_list')
+
+    levels = Level.objects.all()
+    supplies = SupplyItem.objects.all()
+    courses = Course.objects.all()
+    return render(request, 'courses/admin_dashboard.html', {
+        'levels': levels,
+        'supplies': supplies,
+        'courses': courses
+    })

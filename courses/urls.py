@@ -14,4 +14,9 @@ urlpatterns = [
     path('delete-course/<int:pk>/', views.delete_course, name='delete_course'),
     path('success/', views.payment_success, name='payment_success'),
     path('cancel/', views.payment_cancel, name='payment_cancel'),
+    path('update-level/<int:pk>/', views.update_level, name='update_level'),
+    path('delete-level/<int:pk>/', views.delete_level, name='delete_level'),
+    path('update-supply/<int:pk>/', views.update_supply, name='update_supply'),
+    path('delete-supply/<int:pk>/', views.delete_supply, name='delete_supply'),
+    path('admin-dashboard/', views.admin_dashboard, name='admin_dashboard'),
 ]
