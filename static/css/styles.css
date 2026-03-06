@@ -77,7 +77,11 @@
 }
 
 .navbar-nav a:hover {
-  color: var(--text-main);
+  color: var(--btn-hover);
+}
+
+.navbar-brand:hover {
+  color: var(--btn-hover);
 }
 
 .navbar-nav a:hover::after {
