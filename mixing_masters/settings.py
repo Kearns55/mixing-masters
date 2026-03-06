@@ -4,15 +4,16 @@ import dj_database_url
 import stripe
 from dotenv import load_dotenv
 
+
 # Load .env locally
 load_dotenv()
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 TEMPLATES_DIR = os.path.join(BASE_DIR, 'templates')
 
-DEBUG = os.getenv("DEBUG", "True") == "True"
+DEBUG = os.getenv("DEBUG", False)
 SECRET_KEY = os.getenv("SECRET_KEY")
-ALLOWED_HOSTS = os.getenv("ALLOWED_HOSTS", ".herokuapp.com,localhost,127.0.0.1").split(",")
+ALLOWED_HOSTS = ['127.0.0.1', '.herokuapp.com']
 
 # Installed apps
 INSTALLED_APPS = [
@@ -23,14 +24,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django_summernote',
-    'courses',
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'home',
-    'contact',
     'crispy_forms',
     'crispy_bootstrap5',
+    'home',
+    'courses',
+    'contact',
 ]
 
 CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5"
@@ -99,7 +100,7 @@ ROOT_URLCONF = 'mixing_masters.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [TEMPLATES_DIR],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -115,11 +116,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'mixing_masters.wsgi.application'
 
 # Database
-DATABASES = {
-    'default': dj_database_url.parse(
-        os.getenv('DATABASE_URL', f'sqlite:///{BASE_DIR / "db.sqlite3"}')
-    )
-}
+if "DATABASE_URL" in os.environ:
+    print("connected to Postgres")
+    DATABASES = {
+        "default": dj_database_url.parse(os.environ.get("DATABASE_URL"))
+    }
+else:
+    print("connected to db.sqlite3 (testing)")
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
+    }
 
 CSRF_TRUSTED_ORIGINS = [
     "https://mixing-masters-ee8e2a1f7802.herokuapp.com",
@@ -128,10 +137,10 @@ CSRF_TRUSTED_ORIGINS = [
 
 # Password validation
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},  # noqa
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},  # noqa
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},  # noqa
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},  # noqa
 ]
 
 # Internationalization
