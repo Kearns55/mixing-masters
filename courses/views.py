@@ -24,6 +24,23 @@ class CourseDetail(DetailView):
     template_name = "courses/course_detail.html"
     context_object_name = "course"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        course = self.object
+        purchased_count = course.purchases.count()
+        spots_left = max(course.max_participants - purchased_count, 0)
+        user = self.request.user
+        has_purchased = user.is_authenticated and course.purchases.filter(
+            user=user).exists()
+        context.update({
+            "spots_left": spots_left,
+            "has_purchased": has_purchased,
+            "purchased_count": purchased_count,
+            "is_full": spots_left == 0,
+        })
+
+        return context
+
 
 @login_required
 def create_checkout_session(request, pk):
@@ -32,7 +49,14 @@ def create_checkout_session(request, pk):
     # Blocks stripe payment if user already purchased
     if Purchase.objects.filter(user=request.user, course=course).exists():
         messages.warning(request, "You have already purchased this workshop.")
-        return redirect("courses:my_courses")  # Redirect to their purchased workshops
+        # Redirect to their purchased workshops
+        return redirect("courses:my_courses")
+
+    # Blocks stripe payment if workshop is full
+    if course.purchases.count() >= course.max_participants:
+        messages.warning(request, "This workshop is full.")
+        # Redirect to course detail page
+        return redirect("courses:course_detail", pk=course.pk)
 
     # Only create Stripe session if not purchased
     session = stripe.checkout.Session.create(
@@ -110,7 +134,7 @@ def send_purchase_email(user, course):
         message=f"""
         Hi {user.username},
 
-        Thank you for purchasing {course.name}.
+        Thank you for purchasing {course.name} for €{course.price}.
 
         You can now view your workshop details in your dashboard.
 
