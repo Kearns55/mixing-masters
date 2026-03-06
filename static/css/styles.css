@@ -18,6 +18,15 @@
   background-attachment: fixed;
 }
 
+.badge .text-bg-danger {
+  background-color: var(--btn-hover);
+  text-shadow: 2px 2px 2px 2px yellow;
+}
+
+.link-gold {
+  color: var(--accent-gold);
+}
+
 .navbar {
   background-color: var(--bg-secondary);
   border-bottom: 1px solid var(--border-soft);
@@ -52,16 +61,15 @@
 /* Nav Links */
 .navbar-nav {
   display: flex;
-  gap: 2rem;
 }
 
 .navbar-nav a {
+  margin: 0 1rem;
   color: var(--text-muted);
   font-size: 0.85rem;
   letter-spacing: 0.12em;
   text-transform: uppercase;
   position: relative;
-  padding-bottom: 0.2rem;
 }
 
 /* Subtle underline on hover */
@@ -86,11 +94,6 @@
 
 .navbar-nav a:hover::after {
   width: 100%;
-}
-
-/* Active Link */
-.navbar-nav a.active {
-  color: var(--accent-gold);
 }
 
 .navbar.sticky {
@@ -150,6 +153,12 @@ h4, h2, p {
   color: var(--text-muted);
 }
 
+#delete-form {
+  background-color: none;
+  border: none;
+  padding-top: 0;
+}
+
 form {
   padding: 2rem;
   max-width: max-content;
@@ -193,6 +202,10 @@ label {
   background: none;
   border: none;
   padding-top: 0;
+}
+
+.invalid-feedback p strong{
+  color: var(--text-main);
 }
 
 footer{

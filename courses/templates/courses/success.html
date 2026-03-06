@@ -4,11 +4,12 @@
 
 <body>
 <section class="container mt-5">
-  <h1>Order Successful!</h1>
-  <p>
+  <h1 class="text-center">Order Successful!</h1>
+  <p class="text-center">
     We appreciate your business! If you have any questions, please email
-    <a href="mailto:owner@mixingmasters.com">owner@mixingmasters.com</a>.
+    <a href="mailto:owner@mixingmasters.com" class="link-gold">owner@mixingmasters.com</a>.
   </p>
+  <p class="text-center">You have purchased {{ course.name }} for €{{ course.price }}. View <a href="{% url 'courses:my_courses' %}" class="link-gold">your purchased workshops</a>.</p>
 </section>
 </body>
 {% endblock %}
