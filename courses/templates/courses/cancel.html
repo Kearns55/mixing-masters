@@ -1,18 +1,10 @@
 {% extends "base.html" %}
 {% load static %}
-<!DOCTYPE html>
-<html>
-<head>
-  <title>Checkout canceled</title>
-  <link rel="stylesheet" href="{% static 'css/styles.css' %}">
-</head>
+
 {% block content %}
-<body>
-  <section>
-    <h1 class="text-center">Checkout Canceled</h1>
-    <p class="text-center">Oops! Something went wrong. Please try again later.</p>
-    <a href="{% url 'courses:course_list' %}" class="btn btn-primary mx-auto d-table">Back to workshops</a>
-  </section>
-</body>
+<section class="text-center my-5">
+    <h1>Checkout Canceled</h1>
+    <p>Oops! Something went wrong. Please try again later.</p>
+    <a href="{% url 'courses:course_list' %}" class="btn btn-primary">Back to workshops</a>
+</section>
 {% endblock %}
-</html>
