@@ -1,18 +1,10 @@
-#! /usr/bin/env python3.6
-
-"""
-server.py
-Stripe Sample.
-Python 3.6 or newer required.
-"""
 import os
+import stripe
 from dotenv import load_doten
 from flask import Flask, redirect, request
 
 load_dotenv()
 
-import stripe
-# This is your test secret API key.
 stripe.api_key = os.getenv('STRIPE_SECRET_KEY')
 
 app = Flask(__name__,
@@ -21,13 +13,13 @@ app = Flask(__name__,
 
 YOUR_DOMAIN = 'http://localhost:4242'
 
+
 @app.route('/create-checkout-session', methods=['POST'])
 def create_checkout_session():
     try:
         checkout_session = stripe.checkout.Session.create(
             line_items=[
                 {
-                    # Provide the exact Price ID (for example, price_1234) of the product you want to sell
                     'price': '{{PRICE_ID}}',
                     'quantity': 1,
                 },
@@ -39,6 +31,7 @@ def create_checkout_session():
         return str(e)
 
     return redirect(checkout_session.url, code=303)
+
 
 if __name__ == '__main__':
     app.run(port=4242)

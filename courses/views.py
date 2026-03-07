@@ -187,7 +187,8 @@ def _add_supply_and_select(request, data):
     supply, created = SupplyItem.objects.get_or_create(name=name)
     messages.success(
         request,
-        "Supply item added successfully." if created else "Supply item already exists."
+        "Supply item added successfully." if created else "Supply item"
+        "already exists."
     )
 
     # Auto-select: add to the selected supplies list
@@ -203,7 +204,8 @@ def _add_supply_and_select(request, data):
 @login_required
 def create_course(request):
     if not request.user.is_superuser:
-        messages.error(request, "You do not have permission to create courses.")
+        messages.error(request, "You do not have permission to create"
+                       "courses.")
         return redirect('courses:course_list')
     if request.method == 'POST':
         # Make a mutable copy of POST data to modify for adding levels/supplies
@@ -213,12 +215,14 @@ def create_course(request):
         if 'add_supply' in request.POST:
             _add_supply_and_select(request, data)
             form = CourseForm(data, request.FILES)
-            return render(request, 'courses/create_course.html', {'form': form})
+            return render(request, 'courses/create_course.html',
+                          {'form': form})
         # Add level
         if 'add_level' in request.POST:
             _add_level_and_select(request, data)
             form = CourseForm(data, request.FILES)
-            return render(request, 'courses/create_course.html', {'form': form})
+            return render(request, 'courses/create_course.html',
+                          {'form': form})
 
         form = CourseForm(request.POST, request.FILES)
         if form.is_valid():
@@ -238,7 +242,8 @@ def create_course(request):
 @login_required
 def update_course(request, pk):
     if not request.user.is_superuser:
-        messages.error(request, "You do not have permission to update courses.")
+        messages.error(request, "You do not have permission to"
+                       "update courses.")
         return redirect('courses:course_list')
 
     course = get_object_or_404(Course, pk=pk)
@@ -250,7 +255,8 @@ def update_course(request, pk):
             messages.success(request, "Course updated successfully.")
             return redirect('courses:course_list')
         else:
-            messages.error(request, "There was an error updating the course. Please check the form and try again.")
+            messages.error(request, "There was an error updating the course."
+                           "Please check the form and try again.")
     else:
         form = CourseForm(instance=course)
 
@@ -263,7 +269,8 @@ def update_course(request, pk):
 @login_required
 def delete_course(request, pk):
     if not request.user.is_superuser:
-        messages.error(request, "You do not have permission to delete courses.")
+        messages.error(request, "You do not have permission to delete"
+                       "courses.")
         return redirect('courses:course_list')
     course = get_object_or_404(Course, pk=pk)
     if request.method == 'POST':
@@ -288,7 +295,8 @@ def update_level(request, pk):
             messages.success(request, "Level updated successfully.")
             return redirect('courses:admin_dashboard')
         else:
-            messages.error(request, "There was an error updating the level. Please check the form and try again.")
+            messages.error(request, "There was an error updating the level."
+                           "Please check the form and try again.")
     else:
         form = LevelForm(instance=level)
 
@@ -301,7 +309,8 @@ def update_level(request, pk):
 @login_required
 def update_supply(request, pk):
     if not request.user.is_superuser:
-        messages.error(request, "You do not have permission to update supply items.")
+        messages.error(request, "You do not have permission to update"
+                       "supply items.")
         return redirect('courses:course_list')
 
     supply = get_object_or_404(SupplyItem, pk=pk)
@@ -313,7 +322,8 @@ def update_supply(request, pk):
             messages.success(request, "Supply item updated successfully.")
             return redirect('courses:admin_dashboard')
         else:
-            messages.error(request, "There was an error updating the supply item. Please check the form and try again.")
+            messages.error(request, "There was an error updating the supply"
+                           "item. Please check the form and try again.")
     else:
         form = SupplyItemForm(instance=supply)
 
@@ -339,7 +349,8 @@ def delete_level(request, pk):
 @login_required
 def delete_supply(request, pk):
     if not request.user.is_superuser:
-        messages.error(request, "You do not have permission to delete supply items.")
+        messages.error(request, "You do not have"
+                       "permission to delete supply items.")
         return redirect('courses:course_list')
     supply = get_object_or_404(SupplyItem, pk=pk)
     if request.method == 'POST':
@@ -352,7 +363,8 @@ def delete_supply(request, pk):
 @login_required
 def admin_dashboard(request):
     if not request.user.is_superuser:
-        messages.error(request, "You do not have permission to access this page.")
+        messages.error(request, "You do not have permission to access"
+                       "this page.")
         return redirect('courses:course_list')
 
     levels = Level.objects.all()

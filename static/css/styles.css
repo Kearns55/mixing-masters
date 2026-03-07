@@ -166,7 +166,7 @@ h4, h2, p {
 }
 
 #delete-form {
-  background-color: none;
+  background-color: transparent;
   border: none;
   padding-top: 0;
 }

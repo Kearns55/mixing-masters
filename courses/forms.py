@@ -20,7 +20,8 @@ class CourseForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
 
-        tomorrow = (timezone.now() + timedelta(days=1)).strftime("%Y-%m-%dT%H:%M")
+        tomorrow = (timezone.now() + timedelta(days=1)).strftime(
+            "%Y-%m-%dT%H:%M")
 
         # Prevent selecting dates before tomorrow
         self.fields["start_date"].widget.attrs["min"] = tomorrow

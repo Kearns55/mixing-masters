@@ -10,7 +10,8 @@ from cloudinary.models import CloudinaryField
 def validate_start_date(value):
     tomorrow = timezone.now() + timedelta(days=1)
     if value < tomorrow:
-        raise ValidationError("Course must start at least one day in the future.")
+        raise ValidationError("Course must start at least one"
+                              "day in the future.")
 
 
 class Level(models.Model):
@@ -52,7 +53,8 @@ class Course(models.Model):
     name = models.CharField(max_length=200, null=False, blank=False)
     description = models.TextField(null=False, blank=False)
     location = models.CharField(max_length=200, null=False, blank=False)
-    start_date = models.DateTimeField(null=False, blank=False, validators=[validate_start_date])
+    start_date = models.DateTimeField(null=False, blank=False,
+                                      validators=[validate_start_date])
     image = CloudinaryField('image', blank=True, null=True)
 
     price = models.PositiveIntegerField(
