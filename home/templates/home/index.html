@@ -1,12 +1,11 @@
 {% extends 'base.html' %}
 {% load static %}
 
-{% block main_width %}container-fluid px-0{% endblock %}
-
 {% block content %}
 
 <h1 class="text-center my-4">Mixing Masters Workshops</h1>
-<p class="text-center">Learn the art of mixology with our expert-led workshops. Workshops available all over Ireland.</p>
+<p class="text-center">Learn the art of mixology with our expert-led workshops. Workshops available all over Ireland.
+</p>
 
 <div class="container">
     <div class="row">
@@ -15,14 +14,18 @@
         <div class="col-md-4 mb-4">
             <div class="card h-100 shadow-sm">
 
-                <p class="course-pic">{% if course.image %}<img src="{{ course.image.url }}" alt="{{ course.name }}"
-                        class="card-img-top img-fluid rounded">{% endif %}</p>
+                <div class="course-pic">
+                    {% if course.image %}
+                    <img src="{{ course.image.url }}" alt="{{ course.name }}"
+                        class="card-img-top img-fluid rounded">
+                    {% endif %}
+                </div>
 
                 <div class="card-body d-flex flex-column">
 
-                    <h5 class="card-title">
+                    <h3 class="card-title">
                         <em>{{ course.name }}</em>
-                    </h5>
+                    </h3>
 
                     <p class="card-text">
                         {{ course.description|truncatechars:100 }}
@@ -44,9 +47,10 @@
         <p class="text-center">No workshops available.</p>
         {% endfor %}
     </div>
-    <div class="d-grid mt-4">
-        <a href="{% url 'courses:course_list' %}" class="btn btn-primary btn-lg w-100">
-            View All Workshops
-        </a>
-    </div>
-    {% endblock %}
+</div>
+<div class="d-grid mt-4">
+    <a href="{% url 'courses:course_list' %}" class="btn btn-primary btn-lg w-100">
+        View All Workshops
+    </a>
+</div>
+{% endblock %}
