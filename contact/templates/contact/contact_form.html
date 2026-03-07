@@ -4,12 +4,12 @@
 {% block content %}
 
 <div class="container mt-5">
-<h1 class="text-center">Get in Touch</h1>
-<form method="post">
-    {% csrf_token %}
-    {{ form|crispy }}
-    <button type="submit" class="btn btn-primary form-btn">Send Message</button>
-</form>
+    <h1 class="text-center">Get in Touch</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form|crispy }}
+        <button type="submit" class="btn btn-primary form-btn">Send Message</button>
+    </form>
 </div>
 
 {% endblock %}
