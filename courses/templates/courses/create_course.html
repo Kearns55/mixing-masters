@@ -3,13 +3,13 @@
 
 {% block content %}
 
-<h1>Create new course</h1>
+<h1 class="text-center">Create new course</h1>
 
 <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <h5>Add new level</h5>
     <input type="text" name="new_level_name" class="form-control mb-2" placeholder="Level name">
-    <button type="submit" name="add_level" class="btn btn-secondary" formnovalidate>
+    <button type="submit" name="add_level" class="btn btn-secondary form-btn" formnovalidate>
         + Add Level
     </button>
     <hr>
@@ -17,11 +17,11 @@
     <hr>
     <h5>Add New Supply</h5>
     <input type="text" name="new_supply_name" class="form-control mb-2" placeholder="Supply name">
-    <button type="submit" name="add_supply" class="btn btn-secondary" formnovalidate>
+    <button type="submit" name="add_supply" class="btn btn-secondary form-btn" formnovalidate>
         + Add Supply
     </button>
     <hr>
-    <button type="submit" name="create_course" class="btn btn-primary">
+    <button type="submit" name="create_course" class="btn btn-primary form-btn">
         Create Course
     </button>
 

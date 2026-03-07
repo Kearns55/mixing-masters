@@ -146,11 +146,20 @@ h4, h2, p {
   color: var(--text-muted);
 }
 
-.card{
+.card {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-soft);
   border-radius: 0.5rem;
   color: var(--text-muted);
+}
+
+.delete-card {
+  background-color: var(--bg-secondary);
+  border: 1px solid var(--border-soft);
+  border-radius: 0.5rem;
+  color: var(--text-muted);
+  max-width: 30rem;
+  padding-top: 1rem;
 }
 
 #delete-form {
@@ -206,6 +215,12 @@ label {
 
 .invalid-feedback p strong{
   color: var(--text-main);
+}
+
+.delete-form {
+  background-color: transparent;
+  border: none;
+  padding-top: 0;
 }
 
 footer{

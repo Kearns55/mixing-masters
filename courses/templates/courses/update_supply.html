@@ -5,10 +5,10 @@
 
 <h1 class="text-center">Update {{ supply }}</h1>
 
-<form method="post">
+<form method="post" class="text-center">
     {% csrf_token %}
     {{ form|crispy }}
-    <button type="submit" class="btn btn-primary">Update Supply</button>
+    <button type="submit" class="btn btn-primary form-btn">Update Supply</button>
 </form>
 
 {% endblock %}
