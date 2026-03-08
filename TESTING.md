@@ -169,15 +169,6 @@ All previously closed/fixed bugs can be tracked [here](https://www.github.com/Ke
 
 ![screenshot](documentation/bugs/gh-issues-closed.PNG)
 
-### Unfixed Bugs
-
-
-[![GitHub issue custom search](https://img.shields.io/github/issues-search/Kearns55/mixing-masters?query=is%3Aissue%2Bis%3Aopen%2Blabel%3Abug&label=Unfixed%20Bugs&color=red)](https://www.github.com/Kearns55/mixing-masters/issues?q=is%3Aissue+is%3Aopen+label%3Abug)
-
-Any remaining open issues can be tracked [here](https://www.github.com/Kearns55/mixing-masters/issues?q=is%3Aissue+is%3Aopen+label%3Abug).
-
-![screenshot](documentation/bugs/gh-issues-open.PNG)
-
 ### Known Issues
 
 | Issue | Screenshot |
