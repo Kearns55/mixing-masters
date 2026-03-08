@@ -108,15 +108,14 @@ I've tested my deployed project on multiple browsers to check for compatibility 
 
 I've tested my deployed project using the Lighthouse Audit tool to check for any major issues. Some warnings are outside of my control, and mobile results tend to be lower than desktop.
 
-| Page | Mobile | Desktop | Notes |
-| --- | --- | --- | --- |
+| Page | Mobile | Desktop | Screenshot | Notes |
+| --- | --- | --- | --- | --- |
 | Register | ![screenshot](documentation/lighthouse/mobile-register.PNG) | ![screenshot](documentation/lighthouse/desktop-register.PNG) |
 | Login | ![screenshot](documentation/lighthouse/mobile-login.PNG) | ![screenshot](documentation/lighthouse/desktop-login.PNG) |
 | Home | ![screenshot](documentation/lighthouse/mobile-home.PNG) | ![screenshot](documentation/lighthouse/desktop-home.PNG) |
 | Workshops | ![screenshot](documentation/lighthouse/mobile-workshops.PNG) | ![screenshot](documentation/lighthouse/desktop-workshops.PNG) |
 | Workshop Details | ![screenshot](documentation/lighthouse/mobile-workshop-details.PNG) | ![screenshot](documentation/lighthouse/desktop-workshop-details.PNG) |
-| Checkout | ![screenshot](documentation/lighthouse/mobile-checkout.PNG) | ![screenshot](documentation/lighthouse/desktop-checkout.PNG) | Stripe's checkout page running very low lighthouse scores | 
-| ![screenshot](documentation/lighthouse/low-lighthouse.PNG) |
+| Checkout | ![screenshot](documentation/lighthouse/mobile-checkout.PNG) | ![screenshot](documentation/lighthouse/desktop-checkout.PNG) | ![screenshot](documentation/lighthouse/low-lighthouse.PNG) | Stripe's checkout page running very low lighthouse scores |
 | Checkout Success | ![screenshot](documentation/lighthouse/mobile-checkout-success.PNG) | ![screenshot](documentation/lighthouse/desktop-checkout-success.PNG) |
 | Add workshop | ![screenshot](documentation/lighthouse/mobile-add-workshop.PNG) | ![screenshot](documentation/lighthouse/desktop-add-workshop.PNG) |
 | Edit workshop | ![screenshot](documentation/lighthouse/mobile-edit-workshop.PNG) | ![screenshot](documentation/lighthouse/desktop-edit-workshop.PNG) |
