@@ -143,7 +143,7 @@ Defensive programming was manually tested with the below user acceptance testing
 
 | Target | Expectation | Outcome | Screenshot |
 | --- | --- | --- | --- |
-| As a visitor | I would like to browse available mixology courses  | so that I can decide if i want to enroll. | ![screenshot](documentation/features/workshops-list.PNG) |
+| As a visitor | I would like to browse available mixology courses  | so that I can decide if i want to enroll. | ![screenshot](documentation/features/workshop-list.PNG) |
 | As a guest user | I would like to create an account | so that I can complete my purchase and track my order history. | ![screenshot](documentation/features/register.PNG) |
 | As a customer | I would like to click on individual workshops to view more details (description, price, image, etc.) | so that I can make an informed decision about my purchase. | ![screenshot](documentation/features/workshop-details.PNG) |
 | As a customer | I would like to receive a confirmation email after my purchase | so that I can have a record of my transaction and order details. | ![screenshot](documentation/features/confirmation-email.PNG) |
