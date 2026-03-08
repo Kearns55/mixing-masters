@@ -39,7 +39,7 @@ I have used the recommended [CSS Jigsaw Validator](https://jigsaw.w3.org/css-val
 
 | Directory | File | URL | Screenshot |
 | --- | --- | --- | --- | 
-| static | [styles.css](https://github.com/Kearns55/mixing-masters/blob/main/static/css/styles.css) | ![screenshot](documentation/validation/css-static-styles.PNG) | 
+| static | [styles.css] | (https://github.com/Kearns55/mixing-masters/blob/main/static/css/styles.css) | ![screenshot](documentation/validation/css-static-styles.PNG) | 
 
 
 ### Python
