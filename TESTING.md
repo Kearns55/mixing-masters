@@ -37,8 +37,8 @@ I have used the recommended [HTML W3C Validator](https://validator.w3.org) to va
 
 I have used the recommended [CSS Jigsaw Validator](https://jigsaw.w3.org/css-validator) to validate all of my CSS files.
 
-| Directory | File | URL | Screenshot | Notes |
-| --- | --- | --- | --- | --- |
+| Directory | File | URL | Screenshot |
+| --- | --- | --- | --- | 
 | static | [styles.css](https://github.com/Kearns55/mixing-masters/blob/main/static/css/styles.css) | ![screenshot](documentation/validation/css-static-styles.PNG) | 
 
 
